@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { TrendingUp, Lock, Clock, Shield, ArrowRight, Filter } from 'lucide-react';
 import { MOCK_ADAPTERS } from '@/lib/mockData';
 import { riskBadgeClass } from '@/lib/utils';
+import { ProtocolMark } from '@/components/icons/AdapterIcons';
 
 export const metadata: Metadata = {
   title: 'Adapter Explorer — Dnipro',
@@ -61,7 +62,7 @@ export default function AdaptersPage() {
                 {/* Header row */}
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-4">
-                    <div className="text-4xl">{adapter.icon}</div>
+                    <ProtocolMark letter={adapter.icon} className="text-dnipro-400" size={44} />
                     <div>
                       <h2 className="font-medium text-lg group-hover:accent-text transition-colors">
                         {adapter.name}

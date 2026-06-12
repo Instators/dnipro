@@ -6,13 +6,17 @@ import { ArrowLeft, ExternalLink, TrendingUp, Shield, Clock, FileCode } from 'lu
 import { MOCK_ADAPTERS, generateApyHistory } from '@/lib/mockData';
 import { riskBadgeClass, formatUsdc } from '@/lib/utils';
 import { AdapterDetailClient } from './AdapterDetailClient';
+import { ProtocolMark } from '@/components/icons/AdapterIcons';
+
+type PageParams = Promise<{ id: string }>;
 
 export async function generateStaticParams() {
   return MOCK_ADAPTERS.map(a => ({ id: a.id }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const adapter = MOCK_ADAPTERS.find(a => a.id === params.id);
+export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
+  const { id } = await params;
+  const adapter = MOCK_ADAPTERS.find(a => a.id === id);
   if (!adapter) return { title: 'Not Found — Dnipro' };
   return {
     title: `${adapter.name} — Dnipro Adapter`,
@@ -20,8 +24,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default function AdapterDetailPage({ params }: { params: { id: string } }) {
-  const adapter = MOCK_ADAPTERS.find(a => a.id === params.id);
+export default async function AdapterDetailPage({ params }: { params: PageParams }) {
+  const { id } = await params;
+  const adapter = MOCK_ADAPTERS.find(a => a.id === id);
   if (!adapter) notFound();
 
   const apyHistory = generateApyHistory(adapter.apyBps);
@@ -38,7 +43,7 @@ export default function AdapterDetailPage({ params }: { params: { id: string } }
         {/* Header */}
         <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
           <div className="flex items-center gap-5">
-            <span className="text-5xl">{adapter.icon}</span>
+            <ProtocolMark letter={adapter.icon} className="text-dnipro-400" size={56} />
             <div>
               <h1 className="heading-serif text-3xl">{adapter.name}</h1>
               <div className="flex items-center gap-3 mt-1">

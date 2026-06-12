@@ -196,7 +196,7 @@ export function DashboardClient() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">{adapter.icon}</span>
+                    <ProtocolMark letter={adapter.icon} className="text-dnipro-400" size={28} />
                     <div>
                       <div className="text-sm font-medium">{adapter.name}</div>
                       <div className="text-xs text-green-400">{adapter.apyPercent} APY</div>
