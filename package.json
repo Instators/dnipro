@@ -1,5 +1,5 @@
 {
-  "name": "dnipro",
+  "name": "dnipro/sdk",
   "version": "0.1.0",
   "description": "Dnipro — Universal Yield Adapter Standard for Solana",
   "private": true,
