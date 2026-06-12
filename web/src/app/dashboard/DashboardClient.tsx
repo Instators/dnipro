@@ -264,7 +264,7 @@ export function DashboardClient() {
             <div className="surface rounded-lg overflow-hidden">
               <div className="flex border-b border-border/50">
                 {([
-                  { id: 'positions', label: 'My Position', icon: Wallet },
+                  { id: 'positions', label: 'My Position', icon: IconWallet },
                   { id: 'deposit',   label: 'Deposit',     icon: ArrowDownToLine },
                   { id: 'withdraw',  label: 'Withdraw',    icon: ArrowUpFromLine },
                 ] as { id: TabId; label: string; icon: any }[]).map(tab => (
