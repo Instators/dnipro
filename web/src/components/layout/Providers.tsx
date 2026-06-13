@@ -2,6 +2,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import {
   ConnectionProvider,
   WalletProvider,
@@ -13,6 +14,21 @@ import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { clusterApiUrl } from '@solana/web3.js';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
+
+// Workaround: @solana/wallet-adapter-* packages are typed against React 18's
+// FunctionComponent, which is incompatible with @types/react 18.3+/19's
+// expanded ReactNode (which now includes Promise<ReactNode> for RSC support).
+// Casting to FC<PropsWithChildren> restores a compatible component signature
+// without affecting runtime behavior.
+const ConnectionProviderFixed = ConnectionProvider as unknown as FC
+  PropsWithChildren<{ endpoint: string }>
+>;
+const WalletProviderFixed = WalletProvider as unknown as FC
+  PropsWithChildren<{ wallets: any[]; autoConnect?: boolean }>
+>;
+const WalletModalProviderFixed = WalletModalProvider as unknown as FC
+  PropsWithChildren<{}>
+>;
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const network = WalletAdapterNetwork.Mainnet;
@@ -26,10 +42,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+    <ConnectionProviderFixed endpoint={endpoint}>
+      <WalletProviderFixed wallets={wallets} autoConnect>
+        <WalletModalProviderFixed>{children}</WalletModalProviderFixed>
+      </WalletProviderFixed>
+    </ConnectionProviderFixed>
   );
 }
