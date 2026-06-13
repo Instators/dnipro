@@ -2,7 +2,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { FC, PropsWithChildren } from 'react';
 import {
   ConnectionProvider,
   WalletProvider,
@@ -18,17 +17,10 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 // Workaround: @solana/wallet-adapter-* packages are typed against React 18's
 // FunctionComponent, which is incompatible with @types/react 18.3+/19's
 // expanded ReactNode (which now includes Promise<ReactNode> for RSC support).
-// Casting to FC<PropsWithChildren> restores a compatible component signature
-// without affecting runtime behavior.
-const ConnectionProviderFixed = ConnectionProvider as unknown as FC
-  PropsWithChildren<{ endpoint: string }>
->;
-const WalletProviderFixed = WalletProvider as unknown as FC
-  PropsWithChildren<{ wallets: any[]; autoConnect?: boolean }>
->;
-const WalletModalProviderFixed = WalletModalProvider as unknown as FC
-  PropsWithChildren<{}>
->;
+// Untyped `any` aliases sidestep the mismatch without affecting runtime behavior.
+const ConnectionProviderFixed: any = ConnectionProvider;
+const WalletProviderFixed: any = WalletProvider;
+const WalletModalProviderFixed: any = WalletModalProvider;
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const network = WalletAdapterNetwork.Mainnet;
